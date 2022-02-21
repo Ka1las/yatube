@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Записи избранных авторов{% endblock %}
+{% block content %}
+    {% load cache %}
+    {% cache 20 follow_page page %}
+        {% include 'posts/includes/switcher.html' %}
+        <h1>Записи избрынных авторов</h1>
+        {% include 'includes/post.html' %}
+    {% endcache %}
+{% endblock %} 
