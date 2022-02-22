@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models.constraints import UniqueConstraint
 
 User = get_user_model()
 
@@ -32,10 +33,6 @@ class Post(models.Model):
         related_name='posts',
         verbose_name='Автор'
     )
-
-    def __str__(self):
-        return self.text
-
     group = models.ForeignKey(
         Group,
         blank=True,
@@ -45,13 +42,15 @@ class Post(models.Model):
         verbose_name='Группа',
         help_text='Группа, к которой будет относиться пост'
     )
-
     image = models.ImageField(
         'Картинка',
         upload_to='posts/',
         blank=True,
         null=True
     )
+
+    def __str__(self):
+        return self.text
 
     class Meta:
         ordering = ('-pub_date',)
@@ -95,3 +94,6 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
         related_name='following',
     )
+
+    class Meta:
+        UniqueConstraint(fields=['user', 'author'], name='unique_follower')

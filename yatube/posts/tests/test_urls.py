@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
+
 from posts.models import Group, Post
 
 User = get_user_model()
@@ -143,3 +144,8 @@ class PostURLTest(TestCase):
         self.assertRedirects(response, (
             reverse('posts:post_detail', kwargs={'post_id': self.post.pk})
         ))
+
+    def test_error_page(self):
+        response = self.client.get('/nonexist-page/')
+        self.assertEqual(response.status_code, 404)
+        self.assertTemplateUsed(response, 'core/404.html')

@@ -14,9 +14,6 @@ ALLOWED_HOSTS = [
     'testserver',
 ]
 
-ALLOWED_HOSTS = []
-
-
 INSTALLED_APPS = [
     'about.apps.AboutConfig',
     'core.apps.CoreConfig',

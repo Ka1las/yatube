@@ -9,6 +9,7 @@ from django.core.cache import cache
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
+
 from posts.forms import PostForm
 from posts.models import Comment, Follow, Group, Post
 
@@ -106,7 +107,7 @@ class PostPagesTest(TestCase):
                     f'{reverse_name} использует неправильный риверс'
                 )
 
-    def test_index_paje_show_correct_context(self):
+    def test_index_page_show_correct_context(self):
         """Шаблон index сформирован с правильным контекстом."""
         response = self.guest_client.get(reverse('posts:index'))
         response_page_obj = response.context.get('page_obj').object_list[0]
@@ -295,11 +296,6 @@ class PaginatorViewsTest(TestCase):
                 self.assertEqual(len(response.context.get(
                     'page_obj'
                 ).object_list), 3)
-
-    def test_error_page(self):
-        response = self.client.get('/nonexist-page/')
-        self.assertEqual(response.status_code, 404)
-        self.assertTemplateUsed(response, 'core/404.html')
 
 
 class CommentViewsTest(TestCase):
