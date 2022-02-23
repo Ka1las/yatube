@@ -1,3 +1,4 @@
+from email.mime import image
 import shutil
 import tempfile
 
@@ -25,10 +26,23 @@ class PostFormsTest(TestCase):
             slug='test-slug',
             description='Тестовое описание',
         )
+        small_gif = (
+            b'\x47\x49\x46\x38\x39\x61\x01\x00'
+            b'\x01\x00\x00\x00\x00\x21\xf9\x04'
+            b'\x01\x0a\x00\x01\x00\x2c\x00\x00'
+            b'\x00\x00\x01\x00\x01\x00\x00\x02'
+            b'\x02\x4c\x01\x00\x3b'
+        )
+        cls.uploaded = SimpleUploadedFile(
+            name='small.gif',
+            content=small_gif,
+            content_type='image/gif'
+        )
         cls.post = Post.objects.create(
             author=cls.user,
             text='Тестовая группа',
             group=cls.group,
+            image=cls.uploaded
         )
         cls.form = PostForm()
 
@@ -53,7 +67,7 @@ class PostFormsTest(TestCase):
             b'\x02\x4c\x01\x00\x3b'
         )
         uploaded = SimpleUploadedFile(
-            name='small.gif',
+            name='small1.gif',
             content=small_gif,
             content_type='image/gif'
         )
@@ -75,7 +89,7 @@ class PostFormsTest(TestCase):
             Post.objects.filter(
                 text='Тестовый текст',
                 group=self.group.pk,
-                image='posts/small.gif',
+                image='posts/small1.gif',
             ).exists()
         )
 
