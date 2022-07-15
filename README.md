@@ -30,7 +30,7 @@ git clone git@github.com:Ka1las/hw05_final.git
 ```
 
 ```
-cd api_yamdb
+cd hw05_final
 ```
 
 Cоздать и активировать виртуальное окружение:
